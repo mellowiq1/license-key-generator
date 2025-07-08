@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ライセンスキー生成ツール</title>
+  <style>
+    body {
+      background-color: #0d0d0d;
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      color: #ff5555;
+    }
+
+    .key-box {
+      background: #1e1e1e;
+      padding: 20px 30px;
+      border-radius: 12px;
+      font-size: 24px;
+      letter-spacing: 2px;
+      margin-bottom: 20px;
+      user-select: all;
+      word-break: break-word;
+      box-shadow: 0 0 10px #444;
+    }
+
+    .btn {
+      background: #ff5555;
+      border: none;
+      color: white;
+      padding: 12px 24px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .btn:hover {
+      background: #ff2222;
+    }
+
+    .notice {
+      margin-top: 15px;
+      font-size: 14px;
+      color: #66ff66;
+      height: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>ライセンスキー生成ツール</h1>
+  <div class="key-box" id="keyBox">ここにキーが表示されます</div>
+  <button class="btn" onclick="generateKey()">キーを生成してコピー</button>
+  <div class="notice" id="notice"></div>
+
+  <script>
+    function generateKey() {
+      const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+      const segmentCount = Math.floor(Math.random() * 4) + 3; // 3〜6
+      const keyParts = [];
+
+      for (let i = 0; i < segmentCount; i++) {
+        const partLength = Math.floor(Math.random() * 5) + 4; // 4〜8文字
+        let part = "";
+        for (let j = 0; j < partLength; j++) {
+          part += chars[Math.floor(Math.random() * chars.length)];
+        }
+        keyParts.push(part);
+      }
+
+      const licenseKey = keyParts.join("-");
+      const keyBox = document.getElementById("keyBox");
+      keyBox.textContent = licenseKey;
+
+      // クリップボードにコピー
+      navigator.clipboard.writeText(licenseKey).then(() => {
+        const notice = document.getElementById("notice");
+        notice.textContent = "✅ コピーしました！";
+        setTimeout(() => notice.textContent = "", 2000);
+      }).catch(err => {
+        console.error("コピーに失敗:", err);
+      });
+    }
+  </script>
+
+</body>
+</html>
